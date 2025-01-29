@@ -6,6 +6,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework import filters
+from rest_framework.authtoken.serializers import AuthTokenSerializer
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.settings import api_settings
+from rest_framework.authtoken.models import Token
+from rest_framework import serializers
+
 
 from . import serializers
 from . import models
@@ -127,4 +133,22 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     search_fields = ('name', 'email',)
 
 
+class AuthTokenSerializer(ObtainAuthToken.serializer_class):
+    """Serializer for the user authentication object"""
+    pass  # Inherits everything from ObtainAuthToken.serializer_class
 
+class LoginViewSet(viewsets.ViewSet):
+    """Checks email and password and returns an auth token"""
+
+    serializer_class = AuthTokenSerializer  # Explicitly set the serializer
+
+    def create(self, request):
+        """Manually authenticate and generate a token"""
+
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)  # Validate input
+        
+        user = serializer.validated_data['user']
+        token, created = Token.objects.get_or_create(user=user)  # Retrieve/Create token
+
+        return Response({'token': token.key})  # Return the token
