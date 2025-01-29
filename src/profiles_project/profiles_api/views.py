@@ -152,3 +152,21 @@ class LoginViewSet(viewsets.ViewSet):
         token, created = Token.objects.get_or_create(user=user)  # Retrieve/Create token
 
         return Response({'token': token.key})  # Return the token
+    
+
+
+class UserProfileFeedViewSet(viewsets.ModelViewSet):
+    """ handles creating, raeding and updating profile feed items """
+
+    authentication_classes = (TokenAuthentication,)
+    serializer_class = serializers.ProfileFeedItemSerializer
+    queryset = models.ProfileFeedItem.objects.all()
+
+    def perform_create(self, serializer):
+        """ Sets the user profiles to the logged in user """
+
+        serializer.save(user_profile=self.request.user)
+
+        #return super().perform_create(serializer)
+
+    
