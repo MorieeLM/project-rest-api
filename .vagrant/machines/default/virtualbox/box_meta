@@ -1,1 +1,1 @@
-{"name":"ubuntu/focal64","version":"20240821.0.1","provider":"virtualbox","directory":"boxes/ubuntu-VAGRANTSLASH-focal64/20240821.0.1/virtualbox"}
+{"name":"ubuntu/jammy64","version":"20241002.0.0","provider":"virtualbox","directory":"boxes/ubuntu-VAGRANTSLASH-jammy64/20241002.0.0/virtualbox"}

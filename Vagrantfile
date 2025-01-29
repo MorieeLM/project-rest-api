@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "ubuntu/focal64" # Updated to the latest Ubuntu version
+  config.vm.box = "ubuntu/jammy64" # Updated to the latest Ubuntu version
 
   config.vm.network "forwarded_port", host_ip: "127.0.0.1", guest: 8080, host: 8080
 
